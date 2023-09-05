@@ -57,6 +57,8 @@ namespace SleepData
                 if (File.Exists(file))
                 {
                     using (StreamReader sr = new StreamReader(file)) 
+                    using (StreamWriter sw = new StreamWriter("data.txt")) // Create results file
+            
                     {
                         while (!sr.EndOfStream)
                         {
