@@ -83,6 +83,7 @@ namespace SleepData
 
                     Console.WriteLine(outputLine); // Displaying it on the console
                     sw.WriteLine(outputLine);     // Writing the line to summary.txt
+                    //fixed saving to text file
                 }
             }
         }
