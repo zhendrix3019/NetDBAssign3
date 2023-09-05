@@ -5,6 +5,8 @@ namespace SleepData
 {
     class MainClass
     {
+        private static bool output;
+
         public static void Main(string[] args)
         {
             //input
@@ -51,43 +53,45 @@ namespace SleepData
                     }
                 }
             }
-            else if (resp == "2")
+           else if (resp == "2")
+{
+    if (File.Exists(file))
+    {
+        using (StreamReader sr = new StreamReader(file)) // Reading from the data.txt
+        {
+            using (StreamWriter sw = new StreamWriter("data.txt")) // Writing to summary.txt
             {
-                //Configure Data
-                if (File.Exists(file))
+                while (!sr.EndOfStream)
                 {
-                    using (StreamReader sr = new StreamReader(file)) 
-                    using (StreamWriter sw = new StreamWriter("data.txt")) // Create results file
-            
+                    string line = sr.ReadLine();
+
+                    string[] week = line.Split(',');
+                    DateTime date = DateTime.Parse(week[0]);
+                    int[] hours = Array.ConvertAll(week[1].Split('|'), int.Parse);
+
+                    int total = 0;
+                    for (int i = 0; i < hours.Length; i++)
                     {
-                        while (!sr.EndOfStream)
-                        {
-                            string line = sr.ReadLine();
-
-                            string[] week = line.Split(',');
-                            DateTime date = DateTime.Parse(week[0]);
-                            int[] hours = Array.ConvertAll(week[1].Split('|'), int.Parse);
-
-                            int total = 0;
-                            for (int i = 0; i < hours.Length; i++)
-                            {
-                                total += hours[i];
-                            }
-                            double average = (double)total / hours.Length;
-                        //Write Data to text file
-                            Console.WriteLine($"Week of {date:MMM}, {date:dd}, {date:yyyy}");
-                            Console.WriteLine($"{"Su.",4}{"Mo.",4}{"Tu.",4}{"We.",4}{"Th.",4}{"Fr.",4}{"Sa.",4}{"Tot",4}{"Avg",4}");
-                            Console.WriteLine($"{"--",4}{"--",4}{"--",4}{"--",4}{"--",4}{"--",4}{"--",4}{"---",4}{"---",4}");
-                            Console.WriteLine($"{hours[0],4}{hours[1],4}{hours[2],4}{hours[3],4}{hours[4],4}{hours[5],4}{hours[6],4}{total,4}{average,4:F1}");
-                            Console.WriteLine();
-                        }
+                        total += hours[i];
                     }
-                }
-                else
-                {
-                    Console.WriteLine("File Error");
+                    double average = (double)total / hours.Length;
+
+                    string outputLine = $"Week of {date:MMM}, {date:dd}, {date:yyyy}";
+                    outputLine += $"\n{"Su.",4}{"Mo.",4}{"Tu.",4}{"We.",4}{"Th.",4}{"Fr.",4}{"Sa.",4}{"Tot",4}{"Avg",4}";
+                    outputLine += $"\n{"--",4}{"--",4}{"--",4}{"--",4}{"--",4}{"--",4}{"--",4}{"---",4}{"---",4}";
+                    outputLine += $"\n{hours[0],4}{hours[1],4}{hours[2],4}{hours[3],4}{hours[4],4}{hours[5],4}{hours[6],4}{total,4}{average,4:F1}\n";
+
+                    Console.WriteLine(outputLine); // Displaying it on the console
+                    sw.WriteLine(outputLine);     // Writing the line to summary.txt
                 }
             }
+        }
+    }
+    else
+    {
+        Console.WriteLine("File Error");
+    }
+}
         }
     }
 }
