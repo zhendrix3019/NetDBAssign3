@@ -31,6 +31,8 @@ namespace SleepData
                 DateTime dataEndDate = today.AddDays(-(int)today.DayOfWeek); // we want full weeks Sunday - Saturday
                 DateTime dataDate = dataEndDate.AddDays(-(weeks * 7)); // subtract # of weeks from endDate to get startDate
 
+
+                //Generate Sleep Data
                 Random rnd = new Random();
 
                 using (StreamWriter sw = new StreamWriter(file)) 
