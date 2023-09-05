@@ -53,6 +53,7 @@ namespace SleepData
             }
             else if (resp == "2")
             {
+                //Configure Data
                 if (File.Exists(file))
                 {
                     using (StreamReader sr = new StreamReader(file)) 
@@ -71,7 +72,7 @@ namespace SleepData
                                 total += hours[i];
                             }
                             double average = (double)total / hours.Length;
-
+                        //Write Data to text file
                             Console.WriteLine($"Week of {date:MMM}, {date:dd}, {date:yyyy}");
                             Console.WriteLine($"{"Su.",4}{"Mo.",4}{"Tu.",4}{"We.",4}{"Th.",4}{"Fr.",4}{"Sa.",4}{"Tot",4}{"Avg",4}");
                             Console.WriteLine($"{"--",4}{"--",4}{"--",4}{"--",4}{"--",4}{"--",4}{"--",4}{"---",4}{"---",4}");
